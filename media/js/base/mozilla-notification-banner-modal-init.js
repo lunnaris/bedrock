@@ -7,76 +7,53 @@ $(function() {
     'use strict';
 
     var client = window.Mozilla.Client;
+    var utils = window.Mozilla.Utils;
+
+    var headingText;
+    var messageText;
+    var confirmText;
+    var confirmActionText;
+    var confirmLabelText;
+    var closeText;
 
     var _clickCallback = function() {
         Mozilla.Modal.createModal(this, $('.notification-modal-content'));
     };
 
-    var options = [
-        {
-            'id': 'fx-out-of-date-banner-copy1-direct-1',
-            'name': 'fx-out-of-date',
-            'experimentName': 'fx-out-of-date-banner-copy1',
-            'experimentVariant': 'direct-1',
-            'heading': 'Your browser security is at risk.',
-            'message': 'Update Firefox now to protect yourself from the latest malware.',
-            'confirm': 'Update now',
-            'confirmAction': 'Update Firefox',
-            'confirmLabel': 'Firefox for Desktop',
-            'confirmClick': _clickCallback,
-            'url': '/firefox/new/?scene=2',
-            'close': 'Close',
-            'closeLabel': 'Close'
-        },
-        {
-            'id': 'fx-out-of-date-banner-copy1-direct-2',
-            'name': 'fx-out-of-date',
-            'experimentName': 'fx-out-of-date-banner-copy1',
-            'experimentVariant': 'direct-2',
-            'heading': 'Your Firefox is out-of-date.',
-            'message': 'Get the most recent version to keep browsing securely.',
-            'confirm': 'Update Firefox',
-            'confirmAction': 'Update Firefox',
-            'confirmLabel': 'Firefox for Desktop',
-            'confirmClick': _clickCallback,
-            'url': '/firefox/new/?scene=2',
-            'close': 'Close',
-            'closeLabel': 'Close'
-        },
-        {
-            'id': 'fx-out-of-date-banner-copy1-foxy-1',
-            'name': 'fx-out-of-date',
-            'experimentName': 'fx-out-of-date-banner-copy1',
-            'experimentVariant': 'foxy-1',
-            'heading': 'Psst… it’s time for a tune up',
-            'message': 'Stay safe and fast with a quick update.',
-            'confirm': 'Update Firefox',
-            'confirmAction': 'Update Firefox',
-            'confirmLabel': 'Firefox for Desktop',
-            'confirmClick': _clickCallback,
-            'url': '/firefox/new/?scene=2',
-            'close': 'Close',
-            'closeLabel': 'Close'
-        },
-        {
-            'id': 'fx-out-of-date-banner-copy1-foxy-2',
-            'name': 'fx-out-of-date',
-            'experimentName': 'fx-out-of-date-banner-copy1',
-            'experimentVariant': 'foxy-2',
-            'heading': 'Time to browse better!',
-            'message': 'Get the latest version of Firefox for extra speed and safety.',
-            'confirm': 'Update now',
-            'confirmAction': 'Update Firefox',
-            'confirmLabel': 'Firefox for Desktop',
-            'confirmClick': _clickCallback,
-            'url': '/firefox/new/?scene=2',
-            'close': 'Close',
-            'closeLabel': 'Close'
-        }
-    ];
+    // try to get localized copy
+    if (typeof utils !== 'undefined') {
+        headingText = utils.trans('global-fx-out-of-date-banner-heading');
+        messageText = utils.trans('global-fx-out-of-date-banner-message');
+        confirmText = utils.trans('global-fx-out-of-date-banner-confirm');
+        confirmActionText = utils.trans('global-fx-out-of-date-banner-confirm-action');
+        confirmLabelText = utils.trans('global-fx-out-of-date-banner-confirm-label');
+        closeText = utils.trans('global-close');
+    // fall back to English copy if we can't get to the trans function for some reason
+    } else {
+        headingText = 'Your Firefox is out-of-date.';
+        messageText = 'Get the most recent version to keep browsing securely.';
+        confirmText = 'Update Firefox';
+        confirmActionText = 'Update Firefox';
+        confirmLabelText = 'Firefox for Desktop';
+        closeText = 'Close';
+    }
+
+    var options = [{
+        'id': 'fx-out-of-date-banner',
+        'name': 'fx-out-of-date',
+        'heading': headingText,
+        'message': messageText,
+        'confirm': confirmText,
+        'confirmAction': confirmActionText,
+        'confirmLabel': confirmLabelText,
+        'confirmClick': _clickCallback,
+        'url': '/firefox/new/?scene=2',
+        'close': closeText,
+        'closeLabel': closeText
+    }];
 
     /**
-     * Determine if Firefox cliient is out of date.
+     * Determine if Firefox client is out of date.
      * @return {Boolean} - Returns true if client is at least 2 major versions out of date.
      */
     var _isClientOutOfDate = function() {
