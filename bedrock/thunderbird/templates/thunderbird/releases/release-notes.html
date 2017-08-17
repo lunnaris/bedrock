@@ -51,26 +51,29 @@
   {% endblock %}
 
     <div class="main-column">
-      {% if new_features %}
+      {% for note in release.notes if note.tag != 'Known' %}
+      {% if loop.first %}
       <section class="notes-section" id="new-features">
         <h3>{{ _('What’s New') }}</h3>
         <ul class="section-items tagged">
-          {% for note in new_features %}
+        {% endif %}
           <li {% if not note.tag %}class="untagged"{% endif %} id="note-{{ note.id }}">
             {% if note.tag %}
               <b class="tag tag-{{ note.tag.lower() }}">{{ note.tag }}</b>
             {% endif %}
               {{ note.note|markdown|safe }}
           </li>
-          {% endfor %}
+        {% if loop.last %}
         </ul>
       </section>
       {% endif %}
-      {% if known_issues %}
+      {% endfor %}
+      {% for note in release.notes if note.tag == 'Known' %}
+      {% if loop.first %}
       <section class="notes-section" id="known-issues">
         <h3>{{ _('Known Issues') }}</h3>
         <ul class="section-items tagged">
-          {% for note in known_issues %}
+        {% endif %}
             <li id="note-{{ note.id }}">
               <b class="tag tag-unresolved">{{ _('unresolved') }}</b>
               {{ note.note|markdown|safe }}
@@ -82,10 +85,11 @@
               </p>
             {% endif %}
             </li>
-          {% endfor %}
+        {% if loop.last %}
         </ul>
       </section>
       {% endif %}
+      {% endfor %}
     </div>
 
   {% block notes_sidebar %}

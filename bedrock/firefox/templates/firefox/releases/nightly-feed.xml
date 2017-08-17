@@ -13,7 +13,7 @@
   <link rel="self" type="application/atom+xml" href="{{ url('firefox.nightly.notes.feed')|absolute_url }}"/>
   <link rel="alternate" type="text/html" href="{{ url('firefox.notes', channel='nightly')|absolute_url }}"/>
   <icon>{{ static('img/firefox/nightly/favicon.png')|absolute_url }}</icon>
-  <updated>{{ notes[0].modified.isoformat() }}</updated>
+  <updated>{{ notes[0].release_date.isoformat() }}</updated>
   <webfeeds:cover image="{{ static('img/firefox/nightly/page-image.png')|absolute_url }}" />
   <webfeeds:icon>{{ static('img/firefox/nightly/favicon-192.png')|absolute_url }}</webfeeds:icon>
   {% for note in notes %}
@@ -21,7 +21,7 @@
     <title type="html">{{ note.note|markdown|striptags|safe|truncate(100) }}</title>
     <id>{{ note.link|absolute_url }}</id>
     <link rel="alternate" type="text/html" href="{{ note.link|absolute_url }}"/>
-    <updated>{{ note.modified.isoformat() }}</updated>
+    <updated>{{ note.release_date.isoformat() }}</updated>
     <content type="xhtml">
       <div xmlns="http://www.w3.org/1999/xhtml">
         {{ note.version }} / {{ note.tag }}

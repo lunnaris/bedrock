@@ -4,21 +4,18 @@
 import re
 
 from django.conf import settings
-from django.db.models import Q
 from django.http import Http404, HttpResponseRedirect
-from django.shortcuts import get_object_or_404, get_list_or_404
 
-from bedrock.base.urlresolvers import reverse
 from lib import l10n_utils
-from rna.models import Release
 from product_details import product_details
 
+from bedrock.base.urlresolvers import reverse
 from bedrock.firefox.firefox_details import firefox_desktop, firefox_android, firefox_ios
+from bedrock.firefox.templatetags.helpers import android_builds, ios_builds
 from bedrock.thunderbird.details import thunderbird_desktop
 from bedrock.mozorg.decorators import cache_control_expires
 from bedrock.mozorg.templatetags.misc import releasenotes_url
-from bedrock.firefox.templatetags.helpers import android_builds, ios_builds
-
+from bedrock.releasenotes.models import Release, get_release_or_404, get_releases_or_404
 
 SUPPORT_URLS = {
     'Firefox for Android': 'https://support.mozilla.org/products/mobile',
@@ -47,19 +44,6 @@ def equivalent_release_url(release):
                           release.equivalent_desktop_release())
     if equivalent_release:
         return releasenotes_url(equivalent_release)
-
-
-def get_release_or_404(version, product):
-    if product == 'Firefox' and (version.endswith('esr') or
-                                 len(version.split('.')) == 3):
-        product_query = Q(product='Firefox') | Q(
-            product='Firefox Extended Support Release')
-    else:
-        product_query = Q(product=product)
-    release = get_object_or_404(Release, product_query, version=version)
-    if not release.is_public and not settings.DEV:
-        raise Http404
-    return release
 
 
 def get_download_url(release):
@@ -114,19 +98,16 @@ def release_notes(request, version, product='Firefox'):
         release = get_release_or_404(version + 'beta', product)
         return HttpResponseRedirect(releasenotes_url(release))
 
-    new_features, known_issues = release.notes(public_only=not settings.DEV)
-
     return l10n_utils.render(
         request, release_notes_template(release.channel, product,
-                                        int(release.major_version())), {
+                                        int(release.major_version)), {
             'version': version,
             'download_url': get_download_url(release),
             'support_url': SUPPORT_URLS.get(product, 'https://support.mozilla.org/'),
             'check_url': check_url(product, version),
             'release': release,
             'equivalent_release_url': equivalent_release_url(release),
-            'new_features': new_features,
-            'known_issues': known_issues})
+        })
 
 
 @cache_control_expires(1)
@@ -241,8 +222,7 @@ def releases_index(request, product):
 def nightly_feed(request):
     """Serve an Atom feed with the latest changes in Firefox Nightly"""
     notes = []
-    query = Q(product='Firefox', channel='Nightly')
-    releases = sorted(get_list_or_404(Release, query),
+    releases = sorted(get_releases_or_404('firefox', 'nightly'),
                       key=lambda x: x.release_date, reverse=True)[0:5]
 
     for release in releases:
@@ -250,14 +230,12 @@ def nightly_feed(request):
             link = reverse('firefox.desktop.releasenotes',
                            args=(release.version, 'release'))
 
-            for note in release.notes()[0]:
+            for note in release.notes:
                 if note.is_public and note.tag:
                     note.link = link + '#note-' + str(note.id)
                     note.version = release.version
+                    note.release_date = release.release_date
                     notes.append(note)
-
-    # Sort by date in descending order
-    notes = sorted(notes, key=lambda x: x.modified, reverse=True)
 
     return l10n_utils.render(request, 'firefox/releases/nightly-feed.xml',
                              {'notes': notes},
