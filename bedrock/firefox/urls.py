@@ -84,9 +84,6 @@ urlpatterns = (
     page('firefox/private-browsing', 'firefox/private-browsing.html', alt_canonical_paths={
         'en-US': '/firefox/features/private-browsing/',
     }),
-    page('firefox/products', 'firefox/family/index.html', alt_canonical_paths={
-        'en-US': '/firefox/',
-    }),
     url('^firefox/send-to-device-post/$', views.send_to_device_ajax,
         name='firefox.send-to-device-post'),
     page('firefox/unsupported-systems', 'firefox/unsupported-systems.html'),

@@ -135,7 +135,7 @@ redirectpatterns = (
              permanent=False),
 
     # bug 1148127
-    redirect(r'^products/?$', 'firefox.family.index'),
+    redirect(r'^products/?$', 'firefox'),
 
     # Bug 1110927
     redirect(r'^(products/)?firefox/start/central\.html$', 'firefox.new'),
@@ -223,7 +223,7 @@ redirectpatterns = (
              '/{prod}/{vers}/{channel}notes/{page}'),
 
     # bug 767614 superceeded by bug 957711 and 1003718 and 1239960
-    redirect(r'^(mobile|fennec)/?$', 'firefox.family.index'),
+    redirect(r'^(mobile|fennec)/?$', 'firefox'),
 
     # bug 876668
     redirect(r'^mobile/customize(?:/.*)?$', '/firefox/android/'),
@@ -247,7 +247,7 @@ redirectpatterns = (
     redirect(r'^firefox/(?P<vers>[23])\.0/eula', '/legal/eula/firefox-{vers}/'),
 
     # bug 1150713
-    redirect(r'^firefox/sms(?:/.*)?$', 'firefox.family.index'),
+    redirect(r'^firefox/sms(?:/.*)?$', 'firefox'),
 
     # Redirects for SeaMonkey project website, now living at seamonkey-project.org
     redirect(r'^projects/seamonkey/$', 'http://www.seamonkey-project.org/'),
@@ -444,7 +444,7 @@ redirectpatterns = (
     # Bug 654614 /blocklist -> addons.m.o/blocked
     redirect(r'^blocklist(/.*)?$', 'https://addons.mozilla.org/blocked/'),
 
-    redirect('^products/firebird$', 'firefox.family.index'),
+    redirect('^products/firebird$', 'firefox'),
     redirect('^products/firebird/download/$', 'firefox.new'),
     redirect('^products/firefox/add-engines\.html$',
              'https://addons.mozilla.org/search-engines.php'),
@@ -454,7 +454,7 @@ redirectpatterns = (
     redirect('^products/firefox/buttons\.html$', '/contribute/friends/'),
     redirect('^products/firefox/download', 'firefox.new'),
     redirect('^products/firefox/get$', 'firefox.new'),
-    redirect('^products/firefox/$', 'firefox.family.index'),
+    redirect('^products/firefox/$', 'firefox'),
     redirect('^products/firefox/live-bookmarks', '/firefox/features/'),
     redirect('^products/firefox/mirrors\.html$', 'http://www-archive.mozilla.org/mirrors.html'),
     redirect('^products/firefox/releases/$', '/firefox/releases/'),
@@ -483,7 +483,7 @@ redirectpatterns = (
 
     # bug 857246 redirect /products/firefox/start/  to start.mozilla.org
     redirect(r'^products/firefox/start/?$', 'http://start.mozilla.org'),
-    redirect(r'^products/firefox', 'firefox.family.index'),
+    redirect(r'^products/firefox', 'firefox'),
 
     # bug 1260423
     redirect(r'^firefox/choose/?$', 'firefox.new'),
@@ -529,8 +529,8 @@ redirectpatterns = (
     redirect(r'^en-US/firefox/desktop/fast/?', '/en-US/firefox/features/fast/',
              locale_prefix=False),
 
-    # Bug 1361181
-    redirect(r'^en-US/firefox/products/?', '/en-US/firefox/', locale_prefix=False),
+    # Bug 1361181, 1386112
+    redirect(r'^firefox/products/?', 'firefox'),
 
     # bug 1369732
     redirect(r'^Firefox/?$', 'firefox'),

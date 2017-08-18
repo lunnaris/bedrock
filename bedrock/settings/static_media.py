@@ -375,13 +375,6 @@ PIPELINE_CSS = {
         ),
         'output_filename': 'css/firefox-interest-dashboard-bundle.css',
     },
-    'firefox_family_index': {
-        'source_filenames': (
-            'css/newsletter/fxnewsletter-subscribe.less',
-            'css/firefox/family/index.less',
-        ),
-        'output_filename': 'css/firefox_family_index-bundle.css',
-    },
     'firefox_faq': {
         'source_filenames': (
             'css/base/menu-resp.less',
@@ -1506,12 +1499,6 @@ PIPELINE_JS = {
             'js/firefox/family-nav.js',
         ),
         'output_filename': 'js/firefox_interest_dashboard-bundle.js',
-    },
-    'firefox_family_index': {
-        'source_filenames': (
-            'js/firefox/family-index.js',
-        ),
-        'output_filename': 'js/firefox_family_index-bundle.js',
     },
     'firefox_faq': {
         'source_filenames': (
