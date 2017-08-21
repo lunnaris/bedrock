@@ -1162,4 +1162,7 @@ URLS = flatten((
     # Bug 1380845
     url_test('/persona/privacy-policy/', '/privacy/archive/persona/2017-07/'),
     url_test('/persona/terms-of-service/', '/privacy/archive/persona/2017-07/#terms-of-service'),
+
+    # Bug 1386112
+    url_test('/firefox/android/faq/', 'https://support.mozilla.org/products/mobile'),
 ))

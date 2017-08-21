@@ -654,66 +654,66 @@ class TestFeedbackView(TestCase):
 @override_settings(DEV=False)
 @patch('bedrock.firefox.views.l10n_utils.render')
 class TestFirefoxFeatures(TestCase):
-    def test_new_template(self, render_mock):
+    def test_en_us(self, render_mock):
         req = RequestFactory().get('/firefox/features/')
         req.locale = 'en-US'
         views.features_landing(req)
         render_mock.assert_called_once_with(req, 'firefox/features/index.html')
 
     @patch.object(views, 'lang_file_is_active', lambda *x: False)
-    def test_old_template(self, render_mock):
+    def test_non_en_us(self, render_mock):
         req = RequestFactory().get('/firefox/features/')
         req.locale = 'de'
         views.features_landing(req)
-        render_mock.assert_called_once_with(req, 'firefox/features.html')
+        render_mock.assert_called_once_with(req, 'firefox/features/index.html')
 
 
 @override_settings(DEV=False)
 @patch('bedrock.mozorg.views.l10n_utils.render')
 class TestFirefoxProductDesktopView(TestCase):
-    def test_new_template(self, render_mock):
+    def test_en_us(self, render_mock):
         view = views.FirefoxProductDesktopView()
         view.request = RequestFactory().get('/firefox/desktop/')
         view.request.locale = 'en-US'
         eq_(view.get_template_names(), ['firefox/products/desktop.html'])
 
     @patch.object(views, 'lang_file_is_active', lambda *x: False)
-    def test_old_template(self, render_mock):
+    def test_non_en_us(self, render_mock):
         view = views.FirefoxProductDesktopView()
         view.request = RequestFactory().get('/firefox/desktop/')
         view.request.locale = 'fr'
-        eq_(view.get_template_names(), ['firefox/desktop/index.html'])
+        eq_(view.get_template_names(), ['firefox/products/desktop.html'])
 
 
 @override_settings(DEV=False)
 @patch('bedrock.mozorg.views.l10n_utils.render')
 class TestFirefoxProductAndroidView(TestCase):
-    def test_new_template(self, render_mock):
+    def test_en_us(self, render_mock):
         view = views.FirefoxProductAndroidView()
         view.request = RequestFactory().get('/firefox/android/')
         view.request.locale = 'en-US'
         eq_(view.get_template_names(), ['firefox/products/android.html'])
 
     @patch.object(views, 'lang_file_is_active', lambda *x: False)
-    def test_old_template(self, render_mock):
+    def test_non_en_us(self, render_mock):
         view = views.FirefoxProductAndroidView()
         view.request = RequestFactory().get('/firefox/android/')
         view.request.locale = 'fr'
-        eq_(view.get_template_names(), ['firefox/android/index.html'])
+        eq_(view.get_template_names(), ['firefox/products/android.html'])
 
 
 @override_settings(DEV=False)
 @patch('bedrock.mozorg.views.l10n_utils.render')
 class TestFirefoxProductIOSView(TestCase):
-    def test_new_template(self, render_mock):
+    def test_en_us(self, render_mock):
         view = views.FirefoxProductIOSView()
         view.request = RequestFactory().get('/firefox/ios/')
         view.request.locale = 'en-US'
         eq_(view.get_template_names(), ['firefox/products/ios.html'])
 
     @patch.object(views, 'lang_file_is_active', lambda *x: False)
-    def test_old_template(self, render_mock):
+    def test_non_en_us(self, render_mock):
         view = views.FirefoxProductIOSView()
         view.request = RequestFactory().get('/firefox/ios/')
         view.request.locale = 'fr'
-        eq_(view.get_template_names(), ['firefox/ios.html'])
+        eq_(view.get_template_names(), ['firefox/products/ios.html'])
