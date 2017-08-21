@@ -613,14 +613,7 @@ def ios_testflight(request):
 
 
 def features_landing(request):
-    locale = l10n_utils.get_locale(request)
-
-    if lang_file_is_active('firefox/features/index', locale):
-        template = 'firefox/features/index.html'
-    else:
-        template = 'firefox/features.html'
-
-    return l10n_utils.render(request, template)
+    return l10n_utils.render(request, 'firefox/features/index.html')
 
 
 class FeaturesPrivateBrowsingView(BlogPostsView):
@@ -678,14 +671,7 @@ class FirefoxProductDesktopView(BlogPostsView):
     blog_tags = ['browser', 'featured']
 
     def get_template_names(self):
-        locale = l10n_utils.get_locale(self.request)
-
-        if lang_file_is_active('firefox/products/desktop', locale):
-            template_name = 'firefox/products/desktop.html'
-        else:
-            template_name = 'firefox/desktop/index.html'
-
-        return [template_name]
+        return ['firefox/products/desktop.html']
 
 
 class FirefoxProductAndroidView(BlogPostsView):
@@ -695,14 +681,7 @@ class FirefoxProductAndroidView(BlogPostsView):
     blog_tags = ['mobile', 'featured']
 
     def get_template_names(self):
-        locale = l10n_utils.get_locale(self.request)
-
-        if lang_file_is_active('firefox/products/android', locale):
-            template_name = 'firefox/products/android.html'
-        else:
-            template_name = 'firefox/android/index.html'
-
-        return [template_name]
+        return ['firefox/products/android.html']
 
 
 class FirefoxProductIOSView(BlogPostsView):
@@ -712,14 +691,7 @@ class FirefoxProductIOSView(BlogPostsView):
     blog_tags = ['mobile', 'featured']
 
     def get_template_names(self):
-        locale = l10n_utils.get_locale(self.request)
-
-        if lang_file_is_active('firefox/products/ios', locale):
-            template_name = 'firefox/products/ios.html'
-        else:
-            template_name = 'firefox/ios.html'
-
-        return [template_name]
+        return ['firefox/products/ios.html']
 
 
 class FirefoxFocusView(BlogPostsView):
@@ -738,21 +710,10 @@ class FirefoxHubView(BlogPostsView):
     template_name = 'firefox/hub/home.html'
 
     def get(self, request, *args, **kwargs):
-        locale = l10n_utils.get_locale(request)
-
-        # If locale does not have hub page translated, redirect to /new.
-        if lang_file_is_active('firefox/hub/home', locale):
-            return super(FirefoxHubView, self).get(request, *args, **kwargs)
-        else:
-            return HttpResponseRedirect(reverse('firefox.new'))
+        return super(FirefoxHubView, self).get(request, *args, **kwargs)
 
 
 def FirefoxProductDevEditionView(request, template='firefox/products/developer.html'):
-    locale = l10n_utils.get_locale(request)
-
-    if lang_file_is_active('firefox/products/developer', locale):
-        template = 'firefox/products/developer.html'
-    else:
-        template = 'firefox/developer.html'
+    template = 'firefox/products/developer.html'
 
     return l10n_utils.render(request, template)

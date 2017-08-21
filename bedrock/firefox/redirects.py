@@ -537,4 +537,7 @@ redirectpatterns = (
 
     # bug 1370587
     redirect(r'^firefox/sync/?', 'firefox.features.sync'),
+
+    # bug 1386112
+    redirect(r'^firefox/android/faq/?', 'https://support.mozilla.org/products/mobile'),
 )
