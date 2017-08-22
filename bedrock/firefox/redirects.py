@@ -508,7 +508,7 @@ redirectpatterns = (
     redirect(r'^firefox/channel/?$', firefox_channel(), cache_timeout=0),
 
     # Bug 1277196
-    redirect(r'^firefox(?:\/\d+\.\d+(?:\.\d+)?(?:a\d+)?)?/firstrun/learnmore/?$', 'firefox.features', query={
+    redirect(r'^firefox(?:\/\d+\.\d+(?:\.\d+)?(?:a\d+)?)?/firstrun/learnmore/?$', 'firefox.features.index', query={
         'utm_source': 'firefox-browser',
         'utm_medium': 'firefox-browser',
         'utm_campaign': 'redirect',
